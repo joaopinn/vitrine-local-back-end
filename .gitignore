@@ -1,0 +1,2 @@
+# Ignorar arquivos de configuração local e senhas (MUITO IMPORTANTE)
+.env

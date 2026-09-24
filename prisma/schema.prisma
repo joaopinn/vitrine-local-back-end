@@ -1,0 +1,87 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int      @id @default(autoincrement()) @map("id_cliente")
+  name         String   @map("nome_cliente") @db.VarChar(150)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @map("senha_hash") @db.VarChar(255)
+  phone        String?  @map("telefone") @db.VarChar(20)
+  isActive     Boolean  @default(true) @map("ativo")
+  createdAt    DateTime @default(now()) @map("criado_em")
+  updatedAt    DateTime @updatedAt @map("atualizado_em")
+
+  @@map("usuario")
+}
+
+model Professional {
+  id                  Int         @id @default(autoincrement()) @map("id_profissional")
+  name                String      @map("nome") @db.VarChar(150)
+  professionalName    String      @map("nome_profissional") @db.VarChar(150)
+  email               String      @unique @map("e-mail") @db.VarChar(255)
+  phone               String?     @map("telefone") @db.VarChar(20)
+  password            String      @map("senha") @db.VarChar(255)
+  description         String?     @map("descricao_profissional") @db.Text
+  whatsappNumber      String?     @map("numero-whatsapp") @db.VarChar(20)
+  addresses           Address[]
+  portfolioItems      Portfolio[]
+  professionalServices ProfessionalService[]
+
+  @@map("profissional")
+}
+
+model Address {
+  id             Int          @id @default(autoincrement()) @map("id_endereco")
+  professionalId Int          @map("id_profissional")
+  city           String       @map("cidade") @db.VarChar(120)
+  street         String       @map("logradouro") @db.VarChar(255)
+  neighborhood   String       @map("bairro") @db.VarChar(120)
+  zipCode        String       @map("cep") @db.VarChar(9)
+  state          String       @map("estado") @db.Char(2)
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@index([professionalId])
+  @@map("endereco")
+}
+
+model Portfolio {
+  id             Int          @id @default(autoincrement()) @map("id_portfolio")
+  professionalId Int          @map("id_profissional")
+  imageUrl       String       @map("image-url") @db.VarChar(2048)
+  title          String       @map("titulo") @db.VarChar(180)
+  description    String?      @map("descricao") @db.Text
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@index([professionalId])
+  @@map("profissional-portfolio")
+}
+
+model Category {
+  id                   Int                       @id @default(autoincrement()) @map("id_categoria")
+  name                 String                    @unique @map("nome_categoria") @db.VarChar(120)
+  professionalServices ProfessionalService[]
+
+  @@map("categoria")
+}
+
+model ProfessionalService {
+  id             Int          @id @default(autoincrement()) @map("id_servico")
+  professionalId Int          @map("id_profissional")
+  categoryId     Int          @map("id_categoria")
+  name           String       @map("nome_servico") @db.VarChar(180)
+  description    String?      @map("descricao_servico") @db.Text
+  price          Decimal      @map("preco") @db.Decimal(10, 2)
+  professional   Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  category       Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@index([professionalId])
+  @@index([categoryId])
+  @@map("profissional-servico")
+}
