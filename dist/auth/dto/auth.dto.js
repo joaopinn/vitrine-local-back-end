@@ -9,42 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDto = void 0;
+exports.AuthDto = void 0;
 const class_validator_1 = require("class-validator");
-class CreateUserDto {
-    name;
+class AuthDto {
     email;
     password;
-    phone;
 }
-exports.CreateUserDto = CreateUserDto;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MaxLength)(150),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "name", void 0);
+exports.AuthDto = AuthDto;
 __decorate([
     (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.MaxLength)(255),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "email", void 0);
-__decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(8, {
-        message: "A senha tem que ter no mínimo 8 dígitos"
-    }),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "password", void 0);
+], AuthDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsMobilePhone)('pt-BR', {}, {
-        message: 'Informe um telefone brasileiro válido'
-    }),
-    (0, class_validator_1.Matches)(/^\d{11}$/, {
-        message: "Informe o seu DDD + Telefone ( sem símbolos e espaços )"
-    }),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "phone", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+], AuthDto.prototype, "password", void 0);
+//# sourceMappingURL=auth.dto.js.map

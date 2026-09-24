@@ -5,6 +5,8 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  IsMobilePhone,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -24,10 +26,13 @@ export class CreateUserDto {
   })
   password: string;
 
-  @MaxLength(11)
   @IsString()
-  @Matches(/^\d{10,11}$/, {
-    message: "O seu telefone deve conter exatamente 10 a 11 dígitos (DDD + Telefone)"
+  @IsOptional()
+  @IsMobilePhone('pt-BR', {}, {
+    message: 'Informe um telefone brasileiro válido'
+  })
+  @Matches(/^\d{11}$/, {
+    message: "Informe o seu DDD + Telefone ( sem símbolos e espaços )"
   })
   phone?: string;
 }

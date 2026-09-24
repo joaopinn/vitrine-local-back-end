@@ -75,7 +75,13 @@ exports.TransactionIsolationLevel = runtime.makeStrictEnum({
 });
 exports.UserScalarFieldEnum = {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    email: 'email',
+    passwordHash: 'passwordHash',
+    phone: 'phone',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.ProfessionalScalarFieldEnum = {
     id: 'id',
